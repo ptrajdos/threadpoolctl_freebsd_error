@@ -40,7 +40,7 @@ typedef int (*lib_func)(int (*callback)(struct dl_phdr_info *, size_t, void *), 
 int callfromclib(){
 	void     *handle  = NULL;
 	   lib_func  func    = NULL;
-	      handle = dlopen("/lib/libc.so.7",RTLD_DEEPBIND);//"/libexec/ld-elf.so.1"
+	      handle = dlopen("/lib/libc.so.7",RTLD_NOLOAD|RTLD_LOCAL|RTLD_NODELETE);//"/libexec/ld-elf.so.1"
 	         if (handle == NULL)
 			    {
 				           fprintf(stderr, "Unable to open lib: %s\n", dlerror());
