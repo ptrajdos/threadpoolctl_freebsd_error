@@ -833,10 +833,10 @@ class ThreadpoolController:
         """
         #ctypes.cdll.LoadLibrary("/libexec/ld-elf.so.1")
         #libc = ctypes.cdll.LoadLibrary("libc.so.7", mode = os.RTLD_NOLOAD)
-        libc = ctypes.CDLL("libc.so.7", mode=os.RTLD_GLOBAL)
+        libc = ctypes.CDLL("libc.so.7", mode=os.RTLD_NOLOAD)
         #libc = self._get_libc()
         #print("XLibc", x)
-        libc = ctypes.CDLL("/libexec/ld-elf.so.1",mode=os.RTLD_GLOBAL)#self._get_libc()
+        #libc = ctypes.CDLL("/libexec/ld-elf.so.1",mode=os.RTLD_GLOBAL)#self._get_libc()
         
         print("LIBC: ", libc)
         if not hasattr(libc, "dl_iterate_phdr"):  # pragma: no cover
