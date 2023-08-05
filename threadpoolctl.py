@@ -831,13 +831,21 @@ class ThreadpoolController:
         Copyright (c) 2017, Intel Corporation published under the BSD 3-Clause
         license
         """
-        libc = self._get_libc()
+        #ctypes.cdll.LoadLibrary("/libexec/ld-elf.so.1")
+        #libc = ctypes.cdll.LoadLibrary("libc.so.7", mode = os.RTLD_NOLOAD)
+        libc = ctypes.CDLL("libc.so.7", mode=os.RTLD_GLOBAL)
+        #libc = self._get_libc()
+        #print("XLibc", x)
+        libc = ctypes.CDLL("/libexec/ld-elf.so.1",mode=os.RTLD_GLOBAL)#self._get_libc()
+        
+        print("LIBC: ", libc)
         if not hasattr(libc, "dl_iterate_phdr"):  # pragma: no cover
             return []
 
         # Callback function for `dl_iterate_phdr` which is called for every
         # library loaded in the current process until it returns 1.
         def match_library_callback(info, size, data):
+            #print("XXXX")
             # Get the path of the current library
             filepath = info.contents.dlpi_name
             if filepath:
@@ -856,6 +864,7 @@ class ThreadpoolController:
         c_match_library_callback = c_func_signature(match_library_callback)
 
         data = ctypes.c_char_p(b"")
+        print("DLIT: ", libc.dl_iterate_phdr)
         libc.dl_iterate_phdr(c_match_library_callback, data)
 
     def _find_libraries_with_dyld(self):
@@ -1023,7 +1032,7 @@ class ThreadpoolController:
                     RuntimeWarning,
                 )
                 return None
-            libc = ctypes.CDLL(libc_name, mode=_RTLD_NOLOAD)
+            libc = ctypes.CDLL(libc_name, mode=os.RTLD_LOCAL)
             cls._system_libraries["libc"] = libc
         return libc
 
