@@ -5,6 +5,7 @@
 #include <dlfcn.h>
 
 /**
+ * mwe.c
  * Compile via: 
  * gcc -rdynamic mwe.c -o mwe -g -D_GNU_SOURCE
  * or
