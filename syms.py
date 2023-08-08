@@ -21,9 +21,10 @@ def match_library_callback(info, size, data):
     filepath = info.contents.dlpi_name
     if filepath:
         filepath = filepath.decode("utf-8")
+        print(filepath)
 
                                                 # Store the library controller if it is supported and selected
-        self._make_controller_from_path(filepath)
+     #   self._make_controller_from_path(filepath)
         return 0
 
 def call_dl():
@@ -49,7 +50,7 @@ def call_dl():
     print("XX",dl_iterate_phdr_ptr)
 
     #CALL
-    FUNKY = ctypes.CFUNCTYPE(ctypes.c_int)
+    FUNKY = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_void_p, ctypes.c_void_p)
 
     c_func_signature = ctypes.CFUNCTYPE(
                         ctypes.c_int,  # Return type
@@ -63,17 +64,17 @@ def call_dl():
     c_match_library_callback = c_func_signature(match_library_callback)
     data = ctypes.c_char_p(b"")
 
-    libc_name = find_library("c")
-    print("libc_name="+libc_name)
-    libc = ctypes.CDLL(libc_name, mode=_RTLD_NOLOAD)
+    #libc_name = find_library("c")
+    #print("libc_name="+libc_name)
+    #libc = ctypes.CDLL(libc_name, mode=_RTLD_NOLOAD)
 
-    x = libc.dl_iterate_phdr
-    print("libc x:", x)
-    x(c_match_library_callback, data)
+    #x = libc.dl_iterate_phdr
+    #print("libc x:", x)
+    #x(c_match_library_callback, data)
 
     #v = ctypes.CDLL._FuncPtr()
 
-    #FUNKY(dl_iterate_phdr_ptr)(c_match_library_callback, data) # failing line
+    FUNKY(dl_iterate_phdr_ptr)(c_match_library_callback, data) # failing line
     
 
 if __name__ == '__main__':
