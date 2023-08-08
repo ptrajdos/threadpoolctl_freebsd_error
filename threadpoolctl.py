@@ -824,7 +824,7 @@ class ThreadpoolController:
         else:
             self._find_libraries_with_dl_iterate_phdr()
 
-    def _find_libraries_with_dl_iterate_phdr(self):
+    def _find_libraries_with_dl_iterate_phdr_freebsd(self):
         """Loop through loaded libraries and return binders on supported ones
 
         This function is expected to work on POSIX system only.
@@ -834,10 +834,8 @@ class ThreadpoolController:
         Copyright (c) 2017, Intel Corporation published under the BSD 3-Clause
         license
         """
-        libc = self._get_libc()
-        if not hasattr(libc, "dl_iterate_phdr"):  # pragma: no cover
-            return []
-        
+       
+ 
         parent = ctypes.CDLL(None)
     
         dlopen = parent.dlopen
@@ -879,7 +877,7 @@ class ThreadpoolController:
 
         dl_iterate_phdr(c_match_library_callback, data)
 
-    def _find_libraries_with_dl_iterate_phdr_freebsd(self):
+    def _find_libraries_with_dl_iterate_phdr(self):
         """Loop through loaded libraries and return binders on supported ones
 
         This function is expected to work on POSIX system only.
