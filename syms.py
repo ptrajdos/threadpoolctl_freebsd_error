@@ -37,11 +37,11 @@ def call_dl():
     dlsym = parent.dlsym
     dlsym.restype = ctypes.c_void_p
 
-    lib = dlopen(so, os.RTLD_LOCAL)
-    print("LIB:", lib)
+    # lib = dlopen(so, os.RTLD_LOCAL)
+    # print("LIB:", lib)
 
-    foo = parent.dlsym(lib,b'foo')
-    print("FOO: ", foo)
+    # foo = parent.dlsym(lib,b'foo')
+    # print("FOO: ", foo)
 
     RTLD_DEFAULT=-2
     dl_iterate_phdr_ptr = dlsym(RTLD_DEFAULT, b'dl_iterate_phdr')
