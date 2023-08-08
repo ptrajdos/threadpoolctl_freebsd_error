@@ -30,7 +30,7 @@ int call_from_libc(){
 		fprintf(stderr, "Unable to open lib: %s\n", dlerror());
 		return -1;
 	 }
-	func = dlsym(handle, "dl_iterate_phdr");
+	func = dlsym(RTLD_DEFAULT, "dl_iterate_phdr");
 
 	if (func == NULL) {
 		fprintf(stderr, "Unable to get symbol\n");
